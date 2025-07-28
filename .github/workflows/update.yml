@@ -1,0 +1,30 @@
+name: Update
+
+permissions:
+  contents: write
+  
+on:
+  schedule:
+    - cron: '0 13,17 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Check for updates and update if needed
+        run: echo OUTPUT="$(./update.sh)" >> $GITHUB_ENV
+
+      - name: Commit and push changes
+        if: env.OUTPUT != 'Already up to date'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add default.nix
+          git commit -m "${{ env.OUTPUT }}"
+          git push
