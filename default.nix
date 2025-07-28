@@ -5,7 +5,7 @@
 }:
 let
   pname = "heptabase";
-  version = "unknown";
+  version = "1.66.0";
   src = fetchurl {
     url = "https://github.com/heptameta/project-meta/releases/download/v${version}/Heptabase-${version}.AppImage";
     sha256 = "";
