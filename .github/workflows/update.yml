@@ -18,13 +18,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Run update
-        run: echo OUTPUT="$(./update.sh)" >> $GITHUB_ENV
+        run: echo COMMIT_MESSAGE="$(./update.sh > out && cat out | head -n 1 && rm out)" >> $GITHUB_ENV
 
       - name: Commit and push changes
-        if: env.OUTPUT != 'Already up to date'
+        if: env.COMMIT_MESSAGE != 'Already up to date'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add default.nix
-          git commit -m "${{ env.OUTPUT }}"
+          git commit -m "${{ env.COMMIT_MESSAGE }}"
           git push

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 loading() {
     local pid=$1
     local delay=0.1
@@ -20,7 +21,7 @@ if [ "$latest_version" = "$current_version" ]; then
 	echo "Already up to date"
 	exit 0
 fi
-echo "Updating to $latest_version"
+echo "Updating $current_version -> $latest_version"
 
 download_url="https://github.com/heptameta/project-meta/releases/download/v${latest_version}/Heptabase-${latest_version}.AppImage"
 hash=$(curl -sL "$download_url" | sha256sum | cut -d' ' -f1) &
@@ -31,3 +32,5 @@ wait $pid
 
 sed -i "s~version = .*~version = \"$latest_version\";~" default.nix
 sed -i "s~sha256 = .*~sha256 = \"$hash\";~" default.nix
+
+echo "Success!"
