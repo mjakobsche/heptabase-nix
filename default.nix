@@ -5,10 +5,10 @@
 }:
 let
   pname = "heptabase";
-  version = "1.82.4";
+  version = "1.82.6";
   src = fetchurl {
     url = "https://github.com/heptameta/project-meta/releases/download/v${version}/Heptabase-${version}.AppImage";
-    sha256 = "bba3d1b3b93262aa9408b4170191253e92c33f8dc618b93a5f29538d6a4c5499";
+    sha256 = "9b41910a446d4df78d75c430938e68c7582b9b3cd366cf850f06eaa3f2631635";
   };
 
   appimageContents = appimageTools.extractType2 { inherit pname version src; };
